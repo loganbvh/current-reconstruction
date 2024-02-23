@@ -169,9 +169,9 @@ def reconstruct_current(
             magnetometry image prior to FFT. Default: int(len(mag.ys) / 2)
         pad_mode: The padding mode; see documentation for numpy.pad
         kx_max: kx cutoff for the Hanning window.
-            Larger values filter high spatial frequency components.
+            Smaller values filter high spatial frequency components.
         ky_max: ky cutoff for the Hanning window.
-            Larger values filter high spatial frequency components.
+            Smaller values filter high spatial frequency components.
 
     Returns:
         The x and y components of the sheet current density,
