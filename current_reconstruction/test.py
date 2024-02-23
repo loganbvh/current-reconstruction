@@ -30,8 +30,8 @@ def reconstruct_and_plot_current(
     mag: Image,
     psf: Image,
     z0: float = 1.0,
-    kx_max: float = 1.2,
-    ky_max: float = 1.2,
+    kx_max: float = 1.0,
+    ky_max: float = 1.0,
     normalize: bool = True,
     quiver_every: int = 5,
     quiver_scale: float = 15.0,
@@ -128,7 +128,7 @@ class TestCurrentReconstruction(unittest.TestCase):
         mag = Image(mag_data["xs"], mag_data["ys"], mag_data["zs"])
         z0 = mag_data["z0"]
 
-        kx_max, ky_max = 1.2, 1.2
+        kx_max, ky_max = 1.0, 1.0
 
         jx, jy = reconstruct_current(mag, z0, psf=psf, kx_max=kx_max, ky_max=ky_max)
 
@@ -150,9 +150,9 @@ class TestCurrentReconstruction(unittest.TestCase):
             ky_max=ky_max,
         )
         fig.set_facecolor("w")
-        fig.savefig(
-            "./sample_data/current_reconstruction.png", dpi=300, bbox_inches="tight"
-        )
+        # fig.savefig(
+        #     "./sample_data/current_reconstruction.png", dpi=300, bbox_inches="tight"
+        # )
 
 
 if __name__ == "__main__":
