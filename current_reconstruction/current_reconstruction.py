@@ -1,7 +1,7 @@
 """This module implements a Fourier transform inversion of the 2D Biot-Savart law
 to reconstruct a 2D current density distribution from an image of the out-of-plane
 magnet field B_z, or a magnetic flux signal given by B_z convolved with a magnetic
-sensor's point-spread function or imaging kernel.
+sensor's point spread function or imaging kernel.
 
 The method is based on "Using a magnetometer to image a two‐dimensional current distribution",
 J. Appl. Phys. 65, 361–372 (1989) https://doi.org/10.1063/1.342549. A free PDF is available at
