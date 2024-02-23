@@ -35,6 +35,7 @@ mag = Image(mag_data["xs"], mag_data["ys"], mag_data["zs"])
 z0 = mag_data["z0"]
 
 # Cutoff frequencies for Hanning filter.
+# These are determined empirically.
 kx_max, ky_max = 1.0, 1.0
 
 jx, jy = reconstruct_current(mag, z0, psf=psf, kx_max=kx_max, ky_max=ky_max)

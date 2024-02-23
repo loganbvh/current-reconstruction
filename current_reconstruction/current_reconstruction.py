@@ -155,8 +155,8 @@ def reconstruct_current(
     x_pad: Optional[int] = None,
     y_pad: Optional[int] = None,
     pad_mode: str = "linear_ramp",
-    kx_max: float = 1.5,
-    ky_max: float = 1.5,
+    kx_max: float = 1.0,
+    ky_max: float = 1.0,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """Performs a Fourier transform inversion of the 2D Biot-Savart law
     given a magnetometry image and a sensor point spread function.
