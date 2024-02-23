@@ -118,8 +118,11 @@ class Image:
         diff_x = other.dx * len(other.xs) - self.dx * len(self.xs)
         diff_y = other.dy * len(other.ys) - self.dy * len(self.ys)
 
-        x_pad = max(0, int(diff_x / self.dx / 2))
-        y_pad = max(0, int(diff_y / self.dy / 2))
+        x_pad = int(diff_x / self.dx / 2)
+        y_pad = int(diff_y / self.dy / 2)
+
+        if x_pad < 0 or y_pad < 0:
+            raise ValueError("Cannot pad to match a smaller image.")
 
         return self.pad(x_pad, y_pad, mode=mode)
 
