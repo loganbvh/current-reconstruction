@@ -193,8 +193,7 @@ def reconstruct_current(
     if psf is None:
         psf_k = 1.0
     else:
-        psf = psf.pad_to_match(mag)
-        psf = psf.resample(len(mag.xs), len(mag.ys))
+        psf = psf.pad_to_match(mag).resample(len(mag.xs), len(mag.ys))
         psf_k = np.fft.fftshift(np.fft.fft2(np.fft.fftshift(psf.zs)))
 
     mag_k = np.fft.fftshift(np.fft.fft2(mag.zs))
