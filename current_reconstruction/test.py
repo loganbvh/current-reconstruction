@@ -128,7 +128,7 @@ class TestCurrentReconstruction(unittest.TestCase):
         mag = Image(mag_data["xs"], mag_data["ys"], mag_data["zs"])
         z0 = mag_data["z0"]
 
-        kx_max, ky_max = 1.5, 1.5
+        kx_max, ky_max = 1.2, 1.2
 
         jx, jy = reconstruct_current(mag, z0, psf=psf, kx_max=kx_max, ky_max=ky_max)
 
@@ -141,7 +141,7 @@ class TestCurrentReconstruction(unittest.TestCase):
         psf = Image(psf_data["xs"], psf_data["ys"], psf_data["zs"])
         mag = Image(mag_data["xs"], mag_data["ys"], mag_data["zs"])
         z0 = mag_data["z0"]
-        kx_max, ky_max = 1.5, 1.5
+        kx_max, ky_max = 1.0, 1.0
         jx, jy, (fig, axes) = reconstruct_and_plot_current(
             mag,
             psf,
@@ -150,9 +150,9 @@ class TestCurrentReconstruction(unittest.TestCase):
             ky_max=ky_max,
         )
         fig.set_facecolor("w")
-        # fig.savefig(
-        #     "./sample_data/current_reconstruction.png", dpi=300, bbox_inches="tight"
-        # )
+        fig.savefig(
+            "./sample_data/current_reconstruction.png", dpi=300, bbox_inches="tight"
+        )
 
 
 if __name__ == "__main__":

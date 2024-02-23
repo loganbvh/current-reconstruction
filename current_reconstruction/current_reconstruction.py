@@ -20,9 +20,10 @@ def hanning_2D(kx: np.ndarray, ky: np.ndarray, kx_max: float, ky_max: float):
     """2D Hanning window."""
     # See Eq. 18 in J. Appl. Phys. 65, 361–372 (1989), https://doi.org/10.1063/1.342549
     Kx, Ky = np.meshgrid(kx, ky)
-    K = np.sqrt((Kx / kx_max) ** 2 + (Ky / ky_max) ** 2)
-    H = 0.5 * (1 + np.cos(np.pi * K))
-    H[K > 1] = 0
+    k = np.sqrt(Kx ** 2 + Ky ** 2)
+    kmax = np.sqrt(kx_max ** 2 + ky_max ** 2)
+    H = 0.5 * (1 + np.cos(np.pi * k / kmax))
+    H[k > kmax] = 0
     return H
 
 
