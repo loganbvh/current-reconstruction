@@ -29,7 +29,7 @@ def load_mag_data() -> Dict[str, Union[np.ndarray, float, str]]:
 def reconstruct_and_plot_current(
     mag: Image,
     psf: Image,
-    z0: float = 1.0,
+    standoff: float = 1.0,
     kx_max: float = 1.0,
     ky_max: float = 1.0,
     normalize: bool = True,
@@ -40,7 +40,7 @@ def reconstruct_and_plot_current(
     import matplotlib.pyplot as plt
     from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
 
-    jx, jy = reconstruct_current(mag, z0, psf=psf, kx_max=kx_max, ky_max=ky_max)
+    jx, jy = reconstruct_current(mag, standoff, psf=psf, kx_max=kx_max, ky_max=ky_max)
 
     j = np.sqrt(jx**2 + jy**2)
     jmax = np.max(np.abs(j))
@@ -61,15 +61,17 @@ def reconstruct_and_plot_current(
     cbarkw = dict(pad=0.02, shrink=0.9)
 
     ax = axes[0, 0]
-    psf_vmax = np.max(np.abs(psf.zs))
+    psf_vmax = np.max(np.abs(psf.data))
     im = ax.pcolormesh(
-        psf.xs, psf.ys, psf.zs, cmap="coolwarm", vmin=-psf_vmax, vmax=psf_vmax
+        psf.xs, psf.ys, psf.data, cmap="coolwarm", vmin=-psf_vmax, vmax=psf_vmax
     )
     cbar = fig.colorbar(im, ax=ax, location="top", pad=0.01, shrink=0.55)
     cbar.set_label("Sensor PSF [m$\\Phi_0$]")
 
     ax = axes[0, 1]
-    im = ax.pcolormesh(xs, ys, mag.zs * 1e-6 * 1e3, cmap="cividis")
+    current = 1e-6  # A
+    mPhi_0_per_Phi_0 = 1e3
+    im = ax.pcolormesh(xs, ys, mag.data * current * mPhi_0_per_Phi_0, cmap="cividis")
     cbar = fig.colorbar(im, ax=ax, **cbarkw)
     cbar.set_label("Magnetic flux [m$\\Phi_0$]")
     ax.set_title("AC Magnetometry")
@@ -124,28 +126,28 @@ class TestCurrentReconstruction(unittest.TestCase):
         psf_data = load_psf_data()
         mag_data = load_mag_data()
 
-        psf = Image(psf_data["xs"], psf_data["ys"], psf_data["zs"])
-        mag = Image(mag_data["xs"], mag_data["ys"], mag_data["zs"])
-        z0 = mag_data["z0"]
+        psf = Image(psf_data["xs"], psf_data["ys"], psf_data["data"])
+        mag = Image(mag_data["xs"], mag_data["ys"], mag_data["data"])
+        standoff = mag_data["standoff"]
 
         kx_max, ky_max = 1.0, 1.0
 
-        jx, jy = reconstruct_current(mag, z0, psf=psf, kx_max=kx_max, ky_max=ky_max)
+        jx, jy = reconstruct_current(mag, standoff, psf=psf, kx_max=kx_max, ky_max=ky_max)
 
-        self.assertEqual(mag.zs.shape, jx.shape)
-        self.assertEqual(mag.zs.shape, jy.shape)
+        self.assertEqual(mag.data.shape, jx.shape)
+        self.assertEqual(mag.data.shape, jy.shape)
 
     def test_reconstruct_and_plot_current(self):
         psf_data = load_psf_data()
         mag_data = load_mag_data()
-        psf = Image(psf_data["xs"], psf_data["ys"], psf_data["zs"])
-        mag = Image(mag_data["xs"], mag_data["ys"], mag_data["zs"])
-        z0 = mag_data["z0"]
+        psf = Image(psf_data["xs"], psf_data["ys"], psf_data["data"])
+        mag = Image(mag_data["xs"], mag_data["ys"], mag_data["data"])
+        standoff = mag_data["standoff"]
         kx_max, ky_max = 1.0, 1.0
         jx, jy, (fig, axes) = reconstruct_and_plot_current(
             mag,
             psf,
-            z0,
+            standoff,
             kx_max=kx_max,
             ky_max=ky_max,
         )

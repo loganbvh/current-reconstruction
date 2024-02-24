@@ -1,6 +1,6 @@
 # current-reconstruction
 
-This repo implements a Fourier transform inversion of the 2D Biot-Savart law to reconstruct a 2D current density distribution from an image of the out-of-plane magnet field B_z, or a magnetic flux signal given by B_z convolved with a magnetic
+This repo implements a Fourier transform inversion of the 2D Biot-Savart law to reconstruct a 2D current density distribution from an image of the out-of-plane magnetic field B_z, or a magnetic flux signal given by B_z convolved with a magnetic
 sensor's point spread function (PSF) or imaging kernel.
 
 The method is based the following reference:
@@ -26,19 +26,19 @@ mag_data = load_mag_data()
 psf = Image(
     psf_data["xs"],  # shape (m, ) array of x coordinates
     psf_data["ys"],  # shape (n, ) array of y coordinates
-    psf_data["zs"],  # shape (n, m) array of values
+    psf_data["data"],  # shape (n, m) array of values
 )
-mag = Image(mag_data["xs"], mag_data["ys"], mag_data["zs"])
+mag = Image(mag_data["xs"], mag_data["ys"], mag_data["data"])
 
 # Sensor-sample standoff in the same units as
 # psf.xs, psf.ys, mag.xs, and mag.ys
-z0 = mag_data["z0"]
+standoff = mag_data["standoff"]
 
 # Cutoff frequencies for Hanning filter.
 # These are determined empirically.
 kx_max, ky_max = 1.0, 1.0
 
-jx, jy = reconstruct_current(mag, z0, psf=psf, kx_max=kx_max, ky_max=ky_max)
+jx, jy = reconstruct_current(mag, standoff, psf=psf, kx_max=kx_max, ky_max=ky_max)
 ```
 
 ![Image](./sample_data/current_reconstruction.png)
