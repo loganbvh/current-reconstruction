@@ -142,11 +142,6 @@ class Image:
         interp = scipy.interpolate.RectBivariateSpline(self.xs, self.ys, self.data.T)
         return Image(new_xs, new_ys, interp(new_xs, new_ys).T)
 
-    @staticmethod
-    def ones_like(other: "Image") -> "Image":
-        """Make and image of all ones with the same dimension as ``other``"""
-        return Image(other.xs.copy(), other.ys.copy(), np.ones_like(other.data))
-
 
 def reconstruct_current(
     mag: Image,
