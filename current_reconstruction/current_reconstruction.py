@@ -8,7 +8,6 @@ J. Appl. Phys. 65, 361–372 (1989) https://doi.org/10.1063/1.342549. A free PDF
 https://www.vanderbilt.edu/lsp/documents/jap-roth-using-89.pdf
 """
 
-
 from typing import Optional, Tuple
 
 import numpy as np
@@ -20,8 +19,8 @@ def hanning_2D(kx: np.ndarray, ky: np.ndarray, kx_max: float, ky_max: float):
     """2D Hanning window."""
     # See Eq. 18 in J. Appl. Phys. 65, 361–372 (1989), https://doi.org/10.1063/1.342549
     Kx, Ky = np.meshgrid(kx, ky)
-    k = np.sqrt(Kx ** 2 + Ky ** 2)
-    kmax = np.sqrt(kx_max ** 2 + ky_max ** 2)
+    k = np.sqrt(Kx**2 + Ky**2)
+    kmax = np.sqrt(kx_max**2 + ky_max**2)
     H = 0.5 * (1 + np.cos(np.pi * k / kmax))
     H[k > kmax] = 0
     return H
@@ -59,13 +58,19 @@ class Image:
         dx = dx[0]
         dy = dy[0]
         if dx < 0:
+            print("flipping x axis to ensure increasing order")
             xs = xs[::-1]
             data = np.fliplr(data)
-            dx *= -1
+            dx = np.diff(xs)
+            assert np.all(dx > 0)
+            dx = dx[0]
         if dy < 0:
+            print("flipping y axis to ensure increasing order")
             ys = ys[::-1]
             data = np.flipud(data)
-            dy *= -1
+            dy = np.diff(ys)
+            assert np.all(dy > 0)
+            dy = dy[0]
 
         # Ensure an odd number of pixels along each axis
         if not len(xs) % 2:
