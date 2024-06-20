@@ -200,8 +200,6 @@ def reconstruct_current(
         psf = psf.pad_to_match(mag).resample(len(mag.xs), len(mag.ys))
         psf_k = np.fft.fftshift(np.fft.fft2(np.fft.fftshift(psf.data)))
 
-    mag_k = np.fft.fftshift(np.fft.fft2(mag.data))
-
     # Construct k-space coordinates
     dx, dy = mag.dx, mag.dy
     kx = np.linspace(-np.pi / dx, np.pi / dx, mag.data.shape[1], endpoint=False)
