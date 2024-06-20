@@ -201,7 +201,6 @@ def reconstruct_current(
         psf_k = np.fft.fftshift(np.fft.fft2(np.fft.fftshift(psf.data)))
 
     mag_k = np.fft.fftshift(np.fft.fft2(mag.data))
-    psf_k = np.fft.fftshift(np.fft.fft2(np.fft.fftshift(psf.data)))
 
     # Construct k-space coordinates
     dx, dy = mag.dx, mag.dy
